@@ -8,6 +8,7 @@
 makeCacheMatrix <- function(x = matrix()) {
   inv <- NULL
   
+  # this function can be used to set a new matrix
   set <- function(y) {
     x <<- y
     m <<- NULL
@@ -16,7 +17,7 @@ makeCacheMatrix <- function(x = matrix()) {
   get <- function(){x}
   setinv <- function(inverse){inv <<- inverse}
   getinv <- function(){inv}
-  list(get = get, setinv = setinv, getinv = getinv)
+  list(set = set, get = get, setinv = setinv, getinv = getinv)
   
 }
 
@@ -26,11 +27,13 @@ makeCacheMatrix <- function(x = matrix()) {
 cacheSolve <- function(x, ...) {
   inv <- x$getinv()
   
+  # check if inv has a value already; if so, return it
   if(!is.null(inv)){
     return(inv)
   }
   
   data <- x$get()
+  # solve() computes the inverse of a matrix if it is passed only one matrix 
   inv <- solve(data)
   x$setinv(inv)
   inv
